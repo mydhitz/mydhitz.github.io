@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+    <title>Weather API</title>
+
+    <!-- to be in a script.js -->
+    <script type="text/javascript">
+        // Awesome javascript way :-) 
+        function create_request() {
+            var city = $("input").val();
+            var API_URL = "http://api.openweathermap.org/data/2.5/weather?q=" + city +
+                "&units=imperial&appid=e83b3c4c08285bf87b99f9bbc0abe3f0";
+            $.get(API_URL, deliver);
+        }
+        function deliver(response) {
+            var result = "<h4>" + response.name + "</h4>" +
+                "<ul>" +
+                "<li> temperature: " + response.main.temp + " F </li>" +
+                "<li> humidity: " + response.main.humidity + "% </li>" +
+                "<li> wind speed: " + response.wind.speed + " mph</li>" +
+                "</ul>";
+            $(".result").html(result);
+        }
+        // jQuery equivalent to <button onclick="create_request()"> ... 
+        /*$(document).ready(function() {
+            $("button").on("click", create_request);
+        });*/
+        // BORING jQuery way :-(
+        /*$(document).ready(function() {
+            $("button").on("click", function(event) {
+                var city = $("input").val();
+                var API_URL = "http://api.openweathermap.org/data/2.5/weather?q=" + city +
+                    "&units=imperial&appid=e83b3c4c08285bf87b99f9bbc0abe3f0";
+                $.get(API_URL, function(response) {
+                    var result = "<h4>" + response.name + "</h4>" +
+                        "<ul>" +
+                        "<li> temperature: " + response.main.temp + " F </li>" +
+                        "<li> humidity: " + response.main.humidity + "% </li>" +
+                        "<li> wind speed: " + response.wind.speed + "MPH </li>" +
+                        "</ul>";
+                    $(".result").html(result);
+                });
+            });
+        });*/
+    </script>
+</head>
+
+<body>
+    This site uses the
+    <h1>Open Weather Map <a href="https://openweathermap.org/current">API</a></h1>
+    <h3>The Current Weather in</h3>
+    <div class="result"></div>
+    <input type="text" placeholder="City">
+    <button onclick="create_request()">Check Weather</button>
+
+</body>
+
+</html>
+
+<!--
+
+
+
+==============
+APIs Explained
+==============
+METAPHOR
+Food delivery system == API
+1. order food == request service
+2. phone number == API url
+3. food item == service item
+4. phone call == send URL service request via internet
+5. delivery guy == Internet
+6. bags and boxes == objects "data format"
+- Description -
+1.
+    when we want to order food, we first need to decide what kind of food we want; 
+    then find a restaurant that can deliver the food we want.
+    The same thing applies to API services, we first decide the kind of web service we need (locations, maps, images, ... etc);
+    then we find a website that provides an API for the service we want.
+2. 
+    before we can order food, we need to get the restaurant phone number so we can call them.
+    In the case of API, the phone number would be the API URL. So we need to get that URL.
+3.
+    we use the menu to select the kind of food we want to order.
+    In API, based on the service, we decide which item(s) we need (e.g. city name, a picture of a cat or dog ..)
+4. 
+    we call the restaurant to place our order and tell them our address.
+    In API, we use the API url to send a service request.
+5. 
+    if the delivery guy is not avaiable, no food delivery :( 
+    The same applies for internet connection, if no connection no API service.
+6. 
+    food arrived packaged inside bags and boxes, we can't eat the whole thing together with bags and boxes. 
+    Instead, we open (unpcak) them and eat the food we want inside.
+    In API, the service arrived packaged inside a structure called Ojbect. We don't consume (process) the object as a whole.
+    Instead, we fetch the object and select the key/value pairs we want.
+- EXAMPLE -
+1. order pizza          | get weather info
+2. dominos phone #      | see the URL below
+3. cheese and chicken   | NYC
+4. call dominos         | use the url to request weather info. e.g in jQuery $.get(URL)
+5. a guy on a bicycle   | http response
+6. pizza in a box :)    | data in an Ojbect, see example below
+Exmaple API url:
+http://api.openweathermap.org/data/2.5/weather?q=Miami&units=imperial&appid=e83b3c4c08285bf87b99f9bbc0abe3f0
+EXAMPLE RESPONSE
+{
+    "coord": {
+        "lon": -74.01,
+        "lat": 40.71
+    },
+    "weather": [{
+        "id": 601,
+        "main": "Snow",
+        "description": "snow",
+        "icon": "13d"
+    }],
+    "base": "stations",
+    "main": {
+        "temp": 30.25,
+        "pressure": 1014,
+        "humidity": 68,
+        "temp_min": 26.6,
+        "temp_max": 37.4
+    },
+    "wind": {
+        "speed": 4.7,
+        "deg": 150
+    },
+    "clouds": {
+        "all": 90
+    },
+    "dt": 1485874320,
+    "sys": {
+        "type": 1,
+        "id": 1972,
+        "message": 0.1594,
+        "country": "US",
+        "sunrise": 1485864365,
+        "sunset": 1485900819
+    },
+    "id": 5128581,
+    "name": "New York",
+    "cod": 200
+}
+-->
